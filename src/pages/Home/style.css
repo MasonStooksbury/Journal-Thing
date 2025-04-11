@@ -1,0 +1,221 @@
+:root {
+    color-scheme: light dark;
+
+    --background-color: light-dark(#444444, #1e90ff);
+    --text-color: light-dark(#000, #fff);
+    --resource-background-color: #f1f1f1;
+    --resource-background-text-color: light-dark(#222, #222);
+    --white: light-dark(#fff, #000);
+    --black: light-dark(#000, #fff);
+    --text-foreground: var(--black);
+    --theme-toggle-on-color: #FFC53D;
+    --error-color: light-dark(#fecaca, #fecaca);
+    --no-entry-color: light-dark(#999, #999);
+    --accent-color: light-dark(#673ab8, #673ab8);
+}
+
+img {
+	margin-bottom: 1.5rem;
+}
+
+img:hover {
+	filter: drop-shadow(0 0 2em #673ab8aa);
+}
+
+h1 {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.home .grid {
+    display: grid;
+    grid-template-rows: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.resource {
+	padding: 0.75rem 1.5rem;
+	border-radius: 0.5rem;
+	text-align: left;
+	text-decoration: none;
+	color: var(--dark-resource-background-text-color);
+	background-color: var(--dark-resource-background-color);
+	border: 1px solid transparent;
+}
+
+.resource:hover {
+	border: 1px solid #000;
+	box-shadow: 0 25px 50px -12px #673ab888;
+}
+
+@media (max-width: 639px) {
+	.home section {
+		margin-top: 5rem;
+		grid-template-columns: 1fr;
+		row-gap: 1rem;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	.resource {
+		color: #ccc;
+		background-color: #161616;
+	}
+	.resource:hover {
+		border: 1px solid #bbb;
+	}
+}
+
+.text-container {
+    display: grid;
+    grid-column-start: 1;
+    grid-row-start: 2;
+    grid-row-end: span 6;
+}
+
+.text {
+    border-radius: .25rem;
+    font-size: 1rem;
+    min-width: 40vw;
+    min-height: 45vh;
+    max-height: 50vh;
+    scroll-behavior: smooth;
+    resize: none;
+    /* position: fixed; */
+    /* top: 50%;
+    left: 50%;
+    transform: translate(-50%, -25%); */
+}
+
+/* .submit-entry {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--accent-color);
+    color: var(--black);
+    border-radius: 1rem;
+    font-size: 1rem;
+    outline: none;
+} */
+
+
+.box-container {
+    display: grid;
+    grid-column-start: 5;
+    grid-column-end: span 7;
+    grid-row-start: 2;
+    grid-row-end: span 2;
+    column-gap: 2px;
+    row-gap: 2px;
+    grid-template-columns: repeat(7, 1fr);
+
+    p {
+        margin: 0;
+        text-align: center;
+    }
+
+    .tiny-box {
+        align-self: center;
+        justify-self: center;
+        height: 10px;
+        width: 10px;
+        background-color: var(--no-entry-color);
+        border-radius: 1rem;
+        clear: both;
+    }
+}
+
+.save-button-container {
+  display: flex;
+  background-color: #1a1a1a;
+  padding:  40px 0px;
+  width: 240px;
+  align-self: center;
+  justify-self: center;
+  justify-content: center;
+}
+
+h1 {
+  text-align: left;
+  color: #444;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.4em;
+  font-size: 1em;
+}
+
+p {
+  text-align: left;
+  color: #444;
+  letter-spacing: 0.05em;
+  font-size: 0.8em;
+  margin: 0 0 2em;
+}
+
+
+.btn {
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 45px;
+  max-width: 160px;
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 100%;
+  border-radius: 3rem;
+  overflow: hidden;
+}
+.btn:hover {
+  text-decoration: none;
+}
+
+/*btn_background*/
+.effect01 {
+  color: #FFF;
+  border: 4px solid #000;
+  box-shadow:0px 0px 0px 1px #000 inset;
+  background-color: #000;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+.effect01:hover {
+  border: 4px solid var(--accent-color);
+  background-color: var(--accent-color);
+  box-shadow:0px 0px 0px 4px var(--accent-color) inset;
+}
+
+/*btn_text*/
+.effect01 span {
+  transition: all 0.2s ease-out;
+  z-index: 2;
+}
+.effect01:hover span{
+  letter-spacing: 0.13em;
+  color: var(--black);
+}
+
+/*highlight*/
+.effect01:after {
+  background: #FFF;
+  border: 0px solid #000;
+  content: "";
+  height: 155px;
+  left: -75px;
+  opacity: .8;
+  position: absolute;
+  top: -50px;
+  -webkit-transform: rotate(35deg);
+          transform: rotate(35deg);
+  width: 50px;
+  transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);/*easeOutCirc*/
+  z-index: 1;
+}
+.effect01:hover:after {
+  background: #FFF;
+  border: 20px solid #000;
+  opacity: 0;
+  left: 120%;
+  -webkit-transform: rotate(40deg);
+          transform: rotate(40deg);
+}
