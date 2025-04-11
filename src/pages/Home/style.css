@@ -10,7 +10,7 @@
     --text-foreground: var(--black);
     --theme-toggle-on-color: #FFC53D;
     --error-color: light-dark(#fecaca, #fecaca);
-    --no-entry-color: light-dark(#999, #999);
+    --no-entry-color: light-dark(#777, #777);
     --accent-color: light-dark(#673ab8, #673ab8);
 }
 
@@ -119,6 +119,10 @@ h1 {
         background-color: var(--no-entry-color);
         border-radius: 1rem;
         clear: both;
+    }
+
+    .tiny-box:hover {
+        border: solid 1px var(--black);
     }
 }
 

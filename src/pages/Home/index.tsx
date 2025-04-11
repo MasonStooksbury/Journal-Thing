@@ -16,7 +16,7 @@ function TextArea() {
     <div class='text-container'>
       <textarea class='text'/>
       <div class="save-button-container">
-        <a href="h" class="btn effect01" target="_blank"><span>Save</span></a>
+        <a class="btn effect01" target="_blank" onClick={() => save()}><span>Save</span></a>
       </div>
     </div>
   );
@@ -28,7 +28,8 @@ function ProgressTracker() {
 
   const array = [];
   for (let i = 1; i < 366; i++) {
-    array.push(<div class='tiny-box' title={dateFromDay(currentYear, i)}/>)
+    const dateDay = dateFromDay(currentYear, i);
+    array.push(<div class='tiny-box' onClick={() => selectEntry(dateDay, i)} title={dateDay}/>)
   }
   return (
     <div class='progress-tracker'>
@@ -42,6 +43,14 @@ function ProgressTracker() {
       </div>
     </div>
   );
+}
+
+function selectEntry(date: string, dayId: number) {
+  console.log('entry selected', date, dayId)
+}
+
+function save() {
+  console.log('save')
 }
 
 function dateFromDay(year: number, day: number) {
