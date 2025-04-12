@@ -47,6 +47,13 @@ function ProgressTracker() {
 
 function selectEntry(date: string, dayId: number) {
   console.log('entry selected', date, dayId)
+  // TODO: Call API to get text
+  changeTextareaText('weeeeeeeeee')
+}
+
+function changeTextareaText(text: string) {
+  const textarea = document.getElementsByClassName('text')[0];
+  textarea.innerHTML = text;
 }
 
 function save() {
