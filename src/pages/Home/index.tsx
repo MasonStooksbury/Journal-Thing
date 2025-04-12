@@ -1,5 +1,7 @@
 import './style.css';
 
+
+
 export function Home() {
 	return (
 		<div class="home">
@@ -48,6 +50,7 @@ function ProgressTracker() {
 function selectEntry(date: string, dayId: number) {
   console.log('entry selected', date, dayId)
   // TODO: Call API to get text
+  fetch()
   changeTextareaText('weeeeeeeeee')
 }
 
