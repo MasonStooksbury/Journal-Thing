@@ -7,6 +7,8 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"cors": "^2.8.5",
+		"express": "^5.1.0",
 		"preact": "^10.26.5",
 		"preact-iso": "^2.9.1"
 	},

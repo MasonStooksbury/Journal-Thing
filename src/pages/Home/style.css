@@ -11,6 +11,7 @@
     --theme-toggle-on-color: #FFC53D;
     --error-color: light-dark(#fecaca, #fecaca);
     --no-entry-color: light-dark(#777, #777);
+    --entry-color: light-dark(#0c8c00, #0c8c00);
     --accent-color: light-dark(#673ab8, #673ab8);
 }
 
@@ -43,11 +44,13 @@ h1 {
 .text {
     border-radius: .25rem;
     font-size: 1.25rem;
-    min-width: 40vw;
-    min-height: 45vh;
-    max-height: 50vh;
+    min-width: 45vw;
+    min-height: 65vh;
+    max-height: 70vh;
     scroll-behavior: smooth;
     resize: none;
+    outline: none;
+    box-shadow: none;
     /* position: fixed; */
     /* top: 50%;
     left: 50%;
@@ -64,12 +67,25 @@ h1 {
     outline: none;
 } */
 
+.progress-tracker-holder {
+  display: grid;
+  grid-column-start: 5;
+  grid-column-end: span 7;
+  grid-row-start: 2;
+  grid-row-end: span 2;
+}
+
 .progress-tracker {
     display: grid;
     grid-column-start: 5;
     grid-column-end: span 7;
     grid-row-start: 2;
     grid-row-end: span 2;
+}
+
+.year-label {
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: 600;
 }
 
 .year-row {
@@ -98,10 +114,12 @@ h1 {
 
     .previous {
       margin-right: 0.25rem;
+      font-weight: 10;
     }
 
     .next {
       margin-left: 0.25rem;
+      font-weight: 10;
     }
 }
 
@@ -119,6 +137,10 @@ h1 {
         background-color: var(--no-entry-color);
         border-radius: 1rem;
         clear: both;
+    }
+
+    .tiny-box.filled {
+      background-color: var(--entry-color)
     }
 
     .tiny-box:hover {
