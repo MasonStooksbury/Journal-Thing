@@ -1,7 +1,8 @@
+const express = require('express')
 const cors = require('cors')
-const app = require('express')()
 const fs = require('fs')
 
+const app = express()
 const port = 3000
 
 let corsOptions = {
@@ -10,6 +11,7 @@ let corsOptions = {
 
 
 app.use(cors(corsOptions))
+app.use(express.json());
 
 app.get('/', function(req, res) {
     res.set('Content-Type', 'text/plain')
@@ -27,6 +29,7 @@ app.get('/entries/:year/:dayId', function(req, res) {
 })
 
 app.post('/entry', function(req, res) {
+    upsertEntry(req.body.year, req.body.id, req.body.entry)
     res.send('Thanks!')
 })
 
@@ -50,6 +53,7 @@ function datesWithEntries(year) {
     return {'entries': entries}
 }
 
+
 // Return the contents of a given entry
 function getEntryContents(year, dayId) {
     console.log('getting file contents', year, dayId)
@@ -61,4 +65,9 @@ function getEntryContents(year, dayId) {
         content = 'No entry for this date'
     }
     return content
+}
+
+function upsertEntry(year, dayId, entryText) {
+    const filePath = `C:\\Users\\mason\\OneDrive\\Desktop\\New folder\\${year}\\${dayId}.md`
+    fs.writeFileSync(filePath, entryText, {encoding:'utf8',flag:'w'})
 }

@@ -10,7 +10,7 @@
     --text-foreground: var(--black);
     --theme-toggle-on-color: #FFC53D;
     --error-color: light-dark(#fecaca, #fecaca);
-    --no-entry-color: light-dark(#777, #777);
+    --no-entry-color: light-dark(#77777783, #77777783);
     --entry-color: light-dark(#0c8c00, #0c8c00);
     --accent-color: light-dark(#673ab8, #673ab8);
 }
