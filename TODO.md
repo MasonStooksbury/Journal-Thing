@@ -1,3 +1,5 @@
+- Saving some state such that you are editing the date currently pulled up
+  - in the textarea
 - Add buttons so you can change the date (if you're writing at midnight or something)
 - Fix formatting stuff with text blocks
 - Sexier scroll bar on text box
