@@ -15,6 +15,7 @@ export function Home() {
 function TextArea() {
   return (
     <div class='text-container'>
+      <label class='current-day-label'>asdfasdfsad</label>
       <textarea class='text' id='text'/>
       <div class="save-button-container">
         <a class="btn effect01" target="_blank" onClick={() => save()}><span>Save</span></a>
@@ -24,7 +25,7 @@ function TextArea() {
 }
 
 function ProgressTracker() {
-  const currentYear = getCurrentYear()
+  const currentYear = getThisYear()
 
   const [card, setCard] = useState([]);
 
@@ -54,7 +55,9 @@ function Child({ card }) {
   const entries = card.entries
 
   const array = [];
-  const currentYear = getCurrentYear()
+  // const currentYear = getCurrentYear()
+
+  const [currentYear, setCurrentYear] = useState(getThisYear());
   
   for (let i = 1; i < 366; i++) {
     const dateDay = dateFromDay(currentYear, i);
@@ -67,9 +70,9 @@ function Child({ card }) {
   return (
     <div class='progress-tracker'>
       <div class='year-row'>
-        <a class='previous'>&lt;</a>
+        <a class='previous' onClick={async () => await changeYear(currentYear, -1).then((newYear) => {setCurrentYear(newYear)})}>&lt;</a>
         <span class='year-label'>{currentYear}</span>
-        <a class='next'>&gt;</a>
+        <a class='next' onClick={async () => await changeYear(currentYear, 1).then((newYear) => {setCurrentYear(newYear)})}>&gt;</a>
       </div>
       <div class='box-container'>
         {array}
@@ -93,9 +96,16 @@ function changeTextareaText(text: string) {
   textarea.value = text;
 }
 
+async function changeYear(year: number, modifier): Promise<number> {
+  return ((year + modifier) > getThisYear()) ? year : year + modifier
+}
+
 async function save() {
   // Ignore the warning about value, it's not real
   const textarea = document.getElementById('text').value
+
+  const currentYear = getCurrentYear()
+  const dayId = getCurrentDay()
 
   const response = await fetch("http://localhost:3000/entry", {
     method: "POST",
@@ -149,8 +159,22 @@ function getTodayAsDayId() {
   }  
 }
 
-
+// This is the year that is currently set in code (can change)
 function getCurrentYear() {
+  return parseInt(document.getElementsByClassName('year-label')[0].textContent)
+}
+
+// This is the day that is currently set in code (can change)
+function getCurrentDay() {
+
+}
+
+// This is TODAY (only changes every day)
+function getToday() {
+}
+
+// This is THIS calendar year (only changes when the year changes)
+function getThisYear() {
   let now = new Date();
   let dateAsString = now.toLocaleDateString()
   let dateAsArray = dateAsString.split('/')

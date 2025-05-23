@@ -83,6 +83,13 @@ h1 {
     grid-row-end: span 2;
 }
 
+.current-day-label {
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
 .year-label {
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-weight: 600;
