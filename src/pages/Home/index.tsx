@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'preact/hooks';
 import './style.css';
 
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
 export function Home() {
 	return (
 		<div class="home">
@@ -15,7 +17,7 @@ export function Home() {
 function TextArea() {
   return (
     <div class='text-container'>
-      <label class='current-day-label'>asdfasdfsad</label>
+      <label class='current-day-label'>{getToday()}</label>
       <textarea class='text' id='text'/>
       <div class="save-button-container">
         <a class="btn effect01" target="_blank" onClick={() => save()}><span>Save</span></a>
@@ -83,9 +85,16 @@ function Child({ card }) {
 
 
 
-async function selectEntry(year: number, dayId: String) {
+async function selectEntry(year: number, dayId: string) {
   const response = await fetch(`http://localhost:3000/entries/${year}/${dayId}`)
   const text = await response.text()
+
+  let date = new Date(year, 0); // initialize a date in `year-01-01`
+  let newDate = new Date(date.setDate(parseInt(dayId))); // add the number of days
+  let current_day = newDate.toLocaleDateString('default', { month: 'long', year: 'numeric', day: 'numeric' });
+
+  const current_day_label = document.getElementsByClassName('current-day-label')[0];
+  current_day_label.innerHTML = current_day;
 
   changeTextareaText(text)
 }
@@ -104,17 +113,14 @@ async function save() {
   // Ignore the warning about value, it's not real
   const textarea = document.getElementById('text').value
 
-  const currentYear = getCurrentYear()
-  const dayId = getCurrentDay()
-
-  const response = await fetch("http://localhost:3000/entry", {
+  await fetch("http://localhost:3000/entry", {
     method: "POST",
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       'year': getCurrentYear(),
-      'id': getTodayAsDayId(),
+      'id': getCurrentDayAsDayId(),
       'entry': textarea
     }),
   }).then(response => {
@@ -124,6 +130,19 @@ async function save() {
     }
   })
 
+}
+
+function getMonthIndex(month: string) {
+  let count = 1;
+
+  for (let m of months) {
+    if (m === month) {
+      break
+    }
+    count += 1
+  }
+
+  return count
 }
 
 function dateFromDay(year: number, day: number) {
@@ -159,18 +178,40 @@ function getTodayAsDayId() {
   }  
 }
 
+function getCurrentDayAsDayId() {
+  const current_day = document.getElementsByClassName('current-day-label')[0].innerHTML;
+  let day_as_array = current_day.split(' ')
+  console.log(day_as_array)
+  let year = parseInt(day_as_array[2])
+  let month = getMonthIndex(day_as_array[0])
+  let day = parseInt(day_as_array[1].split(',')[0])
+
+  for (let i = 1; i < 366; i++) {
+    let date = new Date(year, 0)
+    let newDate = new Date(date.setDate(i))
+    let newDateAsString = newDate.toLocaleDateString()
+    let newDateAsArray = newDateAsString.split('/')
+    let newYear = parseInt(newDateAsArray[2])
+    let newMonth = parseInt(newDateAsArray[0])
+    let newDay = parseInt(newDateAsArray[1])
+
+    if (newYear === year && newMonth === month && newDay === day) {
+      return i
+    }
+  }
+
+  return 999
+}
+
 // This is the year that is currently set in code (can change)
 function getCurrentYear() {
   return parseInt(document.getElementsByClassName('year-label')[0].textContent)
 }
 
-// This is the day that is currently set in code (can change)
-function getCurrentDay() {
-
-}
-
 // This is TODAY (only changes every day)
 function getToday() {
+  let now = new Date();
+  return now.toLocaleDateString('default', { month: 'long', year: 'numeric', day: 'numeric' });
 }
 
 // This is THIS calendar year (only changes when the year changes)
