@@ -1,0 +1,26 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    image: journal-api
+    volumes:
+      - ./temp-files:/journal-files
+    ports:
+      - "6786:6786"
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    image: journal-client
+    ports:
+      - "6785:6785"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

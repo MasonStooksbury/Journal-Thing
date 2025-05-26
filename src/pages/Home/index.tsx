@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'preact/hooks';
 import './style.css';
 
+const PORT = 6786
+
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
 export function Home() {
@@ -32,7 +34,7 @@ function ProgressTracker() {
   const [card, setCard] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/all-entries/${currentYear}`)
+    fetch(`http://localhost:${PORT}/all-entries/${currentYear}`)
       .then((res) => res.json())
       .then((data) => {
         setCard(data)
@@ -72,9 +74,9 @@ function Child({ card }) {
   return (
     <div class='progress-tracker'>
       <div class='year-row'>
-        <a class='previous' onClick={async () => await changeYear(currentYear, -1).then((newYear) => {setCurrentYear(newYear)})}>&lt;</a>
+        <a class='previous' onClick={async () => await changeYear(currentYear, -1).then((newYear) => {setCurrentYear(newYear)}).then(() => {updateProgressTracker()})}>&lt;</a>
         <span class='year-label'>{currentYear}</span>
-        <a class='next' onClick={async () => await changeYear(currentYear, 1).then((newYear) => {setCurrentYear(newYear)})}>&gt;</a>
+        <a class='next' onClick={async () => await changeYear(currentYear, 1).then((newYear) => {setCurrentYear(newYear)}).then(() => {updateProgressTracker()})}>&gt;</a>
       </div>
       <div class='box-container'>
         {array}
@@ -86,7 +88,7 @@ function Child({ card }) {
 
 
 async function selectEntry(year: number, dayId: string) {
-  const response = await fetch(`http://localhost:3000/entries/${year}/${dayId}`)
+  const response = await fetch(`http://localhost:${PORT}/entries/${year}/${dayId}`)
   const text = await response.text()
 
   let date = new Date(year, 0); // initialize a date in `year-01-01`
@@ -113,7 +115,7 @@ async function save() {
   // Ignore the warning about value, it's not real
   const textarea = document.getElementById('text').value
 
-  await fetch("http://localhost:3000/entry", {
+  await fetch(`http://localhost:${PORT}/entry`, {
     method: "POST",
     headers: {
       'Content-Type': 'application/json',
@@ -224,7 +226,7 @@ function getThisYear() {
 
 
 async function getAllEntries() {
-  const response = await fetch(`http://localhost:3000/all-entries/${getCurrentYear()}`)
+  const response = await fetch(`http://localhost:${PORT}/all-entries/${getCurrentYear()}`)
   let entries = await response.text()
   entries = JSON.parse(entries)
   return entries['entries']

@@ -1,15 +1,15 @@
 const express = require('express')
 const cors = require('cors')
 const fs = require('fs')
+const path = require('path')
 
 const app = express()
-const port = 3000
+const port = 6786
+const file_path = '../journal-files'
 
 let cors_options = {
-    origin: ['http://localhost:5173']
+    origin: ['http://localhost:6785']
 }
-
-let file_path
 
 
 app.use(cors(cors_options))
@@ -47,12 +47,16 @@ app.listen(port, () => {
 // Find all the dates with entries so we can highlight the Progress Tracker in the UI
 function datesWithEntries(year) {
     const entries = []
-    // Return a list of numbers
-    const files = fs.readdirSync(`C:\\Users\\mason\\OneDrive\\Desktop\\New folder\\${year}`)
-    files.forEach(function(file, index) {
-        entries.push(file.slice(0,3))
-    })
-    return {'entries': entries}
+    const year_directory = path.join(file_path, year)
+    if (fs.existsSync(year_directory)) {
+        // Return a list of numbers
+        const files = fs.readdirSync(year_directory)
+        files.forEach(function(file, index) {
+            entries.push(file.slice(0,3))
+        })
+        console.log(entries)
+        return {'entries': entries}
+    }
 }
 
 
@@ -61,15 +65,23 @@ function getEntryContents(year, day_id) {
     console.log('getting file contents', year, day_id)
     let content = ''
     try {
-        content = fs.readFileSync(`C:\\Users\\mason\\OneDrive\\Desktop\\New folder\\${year}\\${day_id}.md`, 'utf8')
+        // content = fs.readFileSync(`${file_path}/${year}/${day_id}.md`, 'utf8')
+        content = fs.readFileSync(path.join(file_path, year, day_id), 'utf8')
     } catch(err) {
         content = 'No entry for this date'
     }
     return content
 }
 
-function upsertEntry(year, day_id, entry_text) {    
-    const filePath = `C:\\Users\\mason\\OneDrive\\Desktop\\New folder\\${year}\\${padLeft(day_id)}.md`
+function upsertEntry(year, day_id, entry_text) {  
+    // const year_directory = `${file_path}/${year}`
+    const year_directory = path.join(file_path, year)
+    if (!fs.existsSync(year_directory)) {
+        fs.mkdirSync(year_directory)
+    }
+
+    // const filePath = `${year_directory}/${padLeft(day_id)}.md`
+    const filePath = path.join(year_directory, `${padLeft(day_id)}.md`)
     fs.writeFileSync(filePath, entry_text, {encoding:'utf8',flag:'w'})
 }
 
