@@ -48,7 +48,7 @@ app.listen(port, () => {
 // Find all the dates with entries so we can highlight the Progress Tracker in the UI
 function datesWithEntries(year) {
     const entries = []
-    const year_directory = path.join(file_path, year)
+    const year_directory = path.join(file_path, year.toString())
     if (fs.existsSync(year_directory)) {
         // Return a list of numbers
         const files = fs.readdirSync(year_directory)
@@ -67,7 +67,7 @@ function getEntryContents(year, day_id) {
     let content = ''
     try {
         // content = fs.readFileSync(`${file_path}/${year}/${day_id}.md`, 'utf8')
-        content = fs.readFileSync(`${path.join(file_path, year, day_id)}.md`, 'utf8')
+        content = fs.readFileSync(`${path.join(file_path, year.toString(), day_id.toString())}.md`, 'utf8')
     } catch(err) {
         content = 'No entry for this date'
     }
@@ -76,7 +76,7 @@ function getEntryContents(year, day_id) {
 
 function upsertEntry(year, day_id, entry_text) {  
     // const year_directory = `${file_path}/${year}`
-    const year_directory = path.join(file_path, year)
+    const year_directory = path.join(file_path, year.toString())
     if (!fs.existsSync(year_directory)) {
         fs.mkdirSync(year_directory)
     }
