@@ -67,7 +67,7 @@ function getEntryContents(year, day_id) {
     let content = ''
     try {
         // content = fs.readFileSync(`${file_path}/${year}/${day_id}.md`, 'utf8')
-        content = fs.readFileSync(path.join(file_path, year, day_id), 'utf8')
+        content = fs.readFileSync(`${path.join(file_path, year, day_id)}.md`, 'utf8')
     } catch(err) {
         content = 'No entry for this date'
     }
