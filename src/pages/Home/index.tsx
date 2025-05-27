@@ -2,6 +2,7 @@ import { useEffect, useState } from 'preact/hooks';
 import './style.css';
 
 const PORT = 6786
+const ORIGIN = 'localhost'
 
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
@@ -34,7 +35,7 @@ function ProgressTracker() {
   const [card, setCard] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:${PORT}/all-entries/${currentYear}`)
+    fetch(`http://${ORIGIN}:${PORT}/all-entries/${currentYear}`)
       .then((res) => res.json())
       .then((data) => {
         setCard(data)
@@ -88,7 +89,7 @@ function Child({ card }) {
 
 
 async function selectEntry(year: number, dayId: string) {
-  const response = await fetch(`http://localhost:${PORT}/entries/${year}/${dayId}`)
+  const response = await fetch(`http://${ORIGIN}:${PORT}/entries/${year}/${dayId}`)
   const text = await response.text()
 
   let date = new Date(year, 0); // initialize a date in `year-01-01`
@@ -115,7 +116,7 @@ async function save() {
   // Ignore the warning about value, it's not real
   const textarea = document.getElementById('text').value
 
-  await fetch(`http://localhost:${PORT}/entry`, {
+  await fetch(`http://${ORIGIN}:${PORT}/entry`, {
     method: "POST",
     headers: {
       'Content-Type': 'application/json',
@@ -226,7 +227,7 @@ function getThisYear() {
 
 
 async function getAllEntries() {
-  const response = await fetch(`http://localhost:${PORT}/all-entries/${getCurrentYear()}`)
+  const response = await fetch(`http://${ORIGIN}:${PORT}/all-entries/${getCurrentYear()}`)
   let entries = await response.text()
   entries = JSON.parse(entries)
   return entries['entries']

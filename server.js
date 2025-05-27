@@ -6,9 +6,10 @@ const path = require('path')
 const app = express()
 const port = 6786
 const file_path = '../journal-files'
+const origin = 'localhost'
 
 let cors_options = {
-    origin: ['http://localhost:6785']
+    origin: [`http://${origin}:6785`]
 }
 
 
